@@ -1,6 +1,8 @@
 # Game Collection
 ## Intro
 
+I've been wanting to work with pygame for a while and this is a collection of games that I made 
+both through Udemy courses and on my own. 
 
 
 # Getting started
@@ -9,10 +11,8 @@
 Please note that these instructions are not 100% complete. 
 
 1. Clone the repo
-2. Run [sudo] pip3 install or pip3 install flask
-3. Run python3 app.py to run the application
-4. Visit localhost:5000 to see the application
-5. Please note that these instructions only follow the Python side of this application.
+2. Run [sudo] pip3 install or pip3 install pygame
+3. Run python3 [main-file-name].py to run the application
 
 ### Technology Stack
 
