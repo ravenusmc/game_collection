@@ -95,8 +95,6 @@ while running:
                 miss_sound.play()
                 player_lives -= 1 
 
-
-    
     #Move the clown 
     clown_rect.x += clown_dx * clown_velocity
     clown_rect.y += clown_dy * clown_velocity
@@ -109,6 +107,36 @@ while running:
 
     #Blit The background 
     display_surface.blit(background_image, background_rect)
+
+    #Update the HUD 
+    score_text = font.render("Score: " + str(score), True, YELLOW)
+    lives_text = font.render("Lives: " + str(player_lives), True, YELLOW)
+
+    #Check for game over
+    if player_lives == 0:
+        display_surface.blit(game_over_text, game_over_rect)
+        display_surface.blit(continue_text, continue_rect)
+        pygame.display.update()
+        #Pause the game until player clicks 
+        pygame.mixer.music.stop()
+        is_paused = True 
+        while is_paused:
+            #The player wants to play again 
+            for event in pygame.event.get():
+               if event.type == pygame.MOUSEBUTTONDOWN:
+                    score = 0
+                    player_lives = PLAYER_STARTING_LIVES
+                    clown_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+                    clown_velocity = CLOWN_STARTING_VELOCITY
+                    clown_dx = random.choice([-1,1])
+                    clown_dy = random.choice([-1,1])
+                    pygame.mixer.music.play(-1,0.0)
+                    is_paused = False
+            #The player wants to quit
+            if event.type == pygame.QUIT:
+                is_paused = False 
+                running = False 
+
 
     #Blit HUD 
     display_surface.blit(title_text, title_rect)
