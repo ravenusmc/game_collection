@@ -4,6 +4,10 @@
 I've been wanting to work with pygame for a while and this is a collection of games that I made 
 both through Udemy courses and on my own. 
 
+Games in Project:
+Catch the Clown 
+Snake
+
 
 # Getting started
 ### Installing
