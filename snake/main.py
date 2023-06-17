@@ -45,7 +45,7 @@ score_rect = score_text.get_rect()
 score_rect.topleft = (10,10)
 
 game_over_text = font.render("GAMEOVER", True, RED, DARKGREEN)
-game_over_rect = game_over_rect.get_rect()
+game_over_rect = game_over_text.get_rect()
 game_over_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
 continue_text = font.render("Press Any Key to Continue", True, RED, DARKGREEN)
@@ -56,6 +56,14 @@ continue_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 64)
 pick_up_sound = pygame.mixer.Sound("./assets/pick_up_sound.wav")
 
 #Set Shapes / images 
+#Rectangle you need (top-left x, top-Left y, width, height)
+apple_coord = (500,500, SNAKE_SIZE, SNAKE_SIZE)
+apple_rect = pygame.draw.rect(display_surface, RED, apple_coord)
+head_coord = (head_x, head_y, SNAKE_SIZE, SNAKE_SIZE)
+head_rect = pygame.draw.rect(display_surface, GREEN, head_coord)
+body_coord = []
+
+
 
 #The Main Game lopp
 running = True 
@@ -65,7 +73,19 @@ while running:
         if event.type == pygame.QUIT:
             running = False 
 
+    display_surface.fill(WHITE)
+    
+    #blit the HUD 
+    display_surface.blit(title_text, title_rect)
+    display_surface.blit(score_text, score_rect)
 
+    #blit the assets 
+    pygame.draw.rect(display_surface, GREEN, head_coord)
+    pygame.draw.rect(display_surface, RED, apple_coord)
+
+    #Update the display 
+    pygame.display.update()
+    clock.tick(FPS)
 
 
 #End the game 
