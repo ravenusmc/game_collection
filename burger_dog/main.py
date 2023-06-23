@@ -115,6 +115,17 @@ while running:
     if keys[pygame.K_DOWN] and player_rect.bottom < WINDOW_HEIGHT:
         player_rect.y += player_velocity
     
+    #Engage boost
+    if keys[pygame.K_SPACE] and boost_level > 0:
+        player_velocity = PLAYER_BOOST_VELOCITY
+        boost_level -= 1
+    else: 
+        player_velocity = PLAYER_NORMAL_VELOCITY
+    
+    #Move the burger and update burger 
+    burger_rect.y += burger_velocity
+    burger_points = (WINDOW_HEIGHT - burger_rect.y)
+    
     
     #Fill the surface 
     display_surface.fill(BLACK)
