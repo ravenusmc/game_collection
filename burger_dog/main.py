@@ -95,6 +95,7 @@ burger_rect = burger_image.get_rect()
 burger_rect.topleft = (random.randint(0, WINDOW_WIDTH - 32),  -BUFFER_DISTANCE)
 
 #Main Game Loop
+pygame.mixer.music.play()
 running = True 
 while running: 
     #Check if user wants to quit 
@@ -137,8 +138,15 @@ while running:
         boost_level = STARTING_BOOST_LEVEL
     
     #Check for collisions 
-    
-    
+    if player_rect.colliderect(burger_rect):
+        score += burger_points
+        burgers_eaten += 1
+        bark_sound.play()
+        burger_rect.topleft = (random.randint(0, WINDOW_WIDTH -32), -BUFFER_DISTANCE)
+        burger_velocity += BURGER_ACCERLERATION
+        boost_level += 25
+        if boost_level > STARTING_BOOST_LEVEL:
+            boost_level = STARTING_BOOST_LEVEL
     
     #Fill the surface 
     display_surface.fill(BLACK)
