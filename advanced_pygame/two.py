@@ -12,7 +12,7 @@ pygame.display.set_caption("Sprite Groups!")
 FPS = 60
 clock = pygame.time.Clock()
 
-#Player Class 
+#Player Class - class creates a player
 class Player(pygame.sprite.Sprite):
 
     def __init__(self, x, y, monster_group):
