@@ -1,3 +1,4 @@
+#basic review as pythhon as a class 
 import pygame, random 
 
 pygame.init() 
