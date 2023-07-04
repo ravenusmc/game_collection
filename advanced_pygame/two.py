@@ -1,4 +1,4 @@
-#basic review as pythhon as a class 
+#basic review as pythhon as a class used in pygame
 import pygame, random 
 
 pygame.init() 
