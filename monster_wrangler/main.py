@@ -65,7 +65,7 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_UP] and self.rect.top > 0:
             self.rect.y -= self.velocity 
         if keys[pygame.K_DOWN] and self.rect.bottom < WINDOW_HEIGHT:
-            self.rect.y = += self.velocity
+            self.rect.y += self.velocity
         
     def warp(self):
         if self.warps > 0: 
@@ -79,11 +79,27 @@ class Player(pygame.sprite.Sprite):
 
 class Monster(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pass 
+    def __init__(self, x, y, image, monster_type):
+        super().__init__()
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x,y)
+        #Monster type is an int 0 -> Blue, 1 -> green, 2 -> purple, 3 -> yellow
+        self.type = monster_type
+        #set random motion 
+        self.dx = random.choice([-1,1])
+        self.dy = random.choice([-1,1])
+        self.velocity = random.randint(1,5)
 
     def update(self):
-        pass 
+        self.rect.x += self.dx * self.velocity
+        self.rect.y += self.dy * self.velocity
+
+        #Bound the monster off display 
+        if self.rect.left <= 0 or self.rect.right >= WINDOW_WIDTH:
+            self.dx = -1 * self.dx 
+        if self.rect.top <= 0 or self.rect.bottom >= WINDOW_HEIGHT:
+            self.dy = -1 * self.dy    
 
 #Create player group and obj 
 my_player_group = pygame.sprite.Group()
@@ -92,6 +108,9 @@ my_player_group.add(my_player)
 
 #Create a monster group 
 my_monster_group = pygame.sprite.Group()
+#Test Monster 
+monster = Monster(500,500, pygame.image.load("./assets/green_monster.png"), 1)
+my_monster_group.add(monster)
 
 #Create a game object 
 my_game = Game()
