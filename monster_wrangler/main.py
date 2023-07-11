@@ -1,3 +1,4 @@
+#This game will have a knight who will attempt to collect monsters of a certain color
 import pygame, random 
 
 #Init Pygame 
