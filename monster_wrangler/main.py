@@ -41,6 +41,7 @@ class Game():
     def reset_game(self):
         pass 
 
+#Player class
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -78,6 +79,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WINDOW//2 
         self.rect.bottom = WINDOW_HEIGHT
 
+#Monster Class
 class Monster(pygame.sprite.Sprite):
 
     def __init__(self, x, y, image, monster_type):
