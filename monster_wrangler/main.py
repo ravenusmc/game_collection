@@ -14,7 +14,7 @@ pygame.display.set_caption("Monster Wrangler")
 FPS = 60
 clock = pygame.time.Clock() 
 
-#Game Class 
+#Game Class - controls main elements of the game
 class Game():
 
     def __init___(self):
