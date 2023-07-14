@@ -1,4 +1,5 @@
 #This game will have a knight who will attempt to collect monsters of a certain color
+#In a way it kind of plays like pacman. 
 import pygame, random 
 
 #Init Pygame 
