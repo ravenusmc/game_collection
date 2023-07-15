@@ -18,14 +18,62 @@ clock = pygame.time.Clock()
 #Game Class - controls main elements of the game
 class Game():
 
-    def __init___(self):
-        pass
+    def __init___(self, player, monster_group):
+        self.score = 0
+        self.round_number = 0
+        self.round_time = 0
+        self.frame_count = 0
+        self.player = player 
+        self.monster_group = monster_group
+        #set sound and music 
+        self.next_level_sound = pygame.mixer.Sound("./assets/next_level.wav")
+        self.font = pygame.font.Font("./assets/Abrushow.ttf", 24)
+        #set images 
+        blue_image = pygame.image.load("./assets/blue_monster.png")
+        green_image = pygame.image.load("./assets/green_monster.png")
+        purple_image = pygame.image.load("./assets/purple_monster.png")
+        yellow_image = pygame.image.load("./assets/yellow_monster.png")
+        self.target_monster_images = [blue_image, green_image, purple_image, yellow_image]
+        self.target_monster_type = random.randint(0,3)
+        self.target_monster_image = self.target_monster_images[self.target_monster_type]
+        self.target_monster_rect = self.target_monster_image.get_rect()
+        self.target_monster_rect.centerx = WINDOW_WIDTH//2
+        self.target_moster_rect.top = 30 
+
     
     def update(self):
-        pass
+        self.round_time += 1
+        self.check_collisions()
 
     def draw(self):
-        pass
+        #Set Colors 
+        WHITE = (255,255,255)
+        BLUE = (20, 176, 235)
+        GREEN = (87, 201, 47)
+        PURPLE = (226, 73, 243)
+        YELLOW = (243, 157, 20)
+
+        colors = [BLUE, GREEN, PURPLE, YELLOW]
+
+        #Set Text 
+        catch_text = self.font.render("Current Catch", True, WHITE)
+        catch_rect = catch_text.get_rect()
+        catch_rect.centerx = WINDOW_WIDTH//2
+        catch_rect.top = 5
+
+        #score text 
+        score_text = self.font.render("Score: " + str(self.score), True, WHITE)
+        score_rect = score_text.get_rect()
+        score_rect.topleft = (5,5)
+
+        #Lives Text 
+        lives_text = self.font.render("Lives: " + str(self.player.lives), True, WHITE)
+        lives_rect = lives_text.get_rect()
+        lives_rect.topleft = (5, 35)
+
+        round_text = self.font.render("Current Round: " + str(self.round_number), True, WHITE)
+        round_rect = round_text.get_rect()
+        round_rect.topleft = (5, 65)
     
     def check_collisions(self):
         pass
@@ -117,7 +165,7 @@ monster = Monster(500,500, pygame.image.load("./assets/green_monster.png"), 1)
 my_monster_group.add(monster)
 
 #Create a game object 
-my_game = Game()
+my_game = Game(my_player, my_monster_group)
 
 #Main Game Loop 
 running = True 
