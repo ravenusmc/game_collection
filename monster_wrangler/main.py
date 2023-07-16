@@ -18,7 +18,7 @@ clock = pygame.time.Clock()
 #Game Class - controls main elements of the game
 class Game():
 
-    def __init___(self, player, monster_group):
+    def __init__(self, player, monster_group):
         self.score = 0
         self.round_number = 0
         self.round_time = 0
@@ -38,11 +38,14 @@ class Game():
         self.target_monster_image = self.target_monster_images[self.target_monster_type]
         self.target_monster_rect = self.target_monster_image.get_rect()
         self.target_monster_rect.centerx = WINDOW_WIDTH//2
-        self.target_moster_rect.top = 30 
+        self.target_monster_rect.top = 30 
 
     
     def update(self):
-        self.round_time += 1
+        self.frame_count += 1
+        if self.frame_count == FPS: 
+            self.round_time += 1
+            self.frame_count = 0 
         self.check_collisions()
 
     def draw(self):
@@ -74,7 +77,26 @@ class Game():
         round_text = self.font.render("Current Round: " + str(self.round_number), True, WHITE)
         round_rect = round_text.get_rect()
         round_rect.topleft = (5, 65)
-    
+
+        time_text = self.font.render("Round time: " + str(self.round_time), True, WHITE)
+        time_rect = time_text.get_rect() 
+        time_rect.topright = (WINDOW_WIDTH - 10, 5)
+
+        warp_text = self.font.render("Warps: " + str(self.player.warps), True, WHITE)
+        warp_rect = warp_text.get_rect()
+        warp_rect.topright = (WINDOW_WIDTH - 10, 35)
+
+        #Blit the HUD 
+        display_surface.blit(catch_text, catch_rect)
+        display_surface.blit(score_text, score_rect)
+        display_surface.blit(round_text, round_rect)
+        display_surface.blit(lives_text, lives_rect)
+        display_surface.blit(time_text, time_rect)
+        display_surface.blit(warp_text, warp_rect)
+        display_surface.blit(self.target_monster_image, self.target_monster_rect)
+        pygame.draw.rect(display_surface, colors[self.target_monster_type], (WINDOW_WIDTH//2 - 32, 30, 64,64), 2)
+        pygame.draw.rect(display_surface, colors[self.target_monster_type], (0,100, WINDOW_WIDTH, WINDOW_HEIGHT - 200), 4)
+
     def check_collisions(self):
         pass
 
