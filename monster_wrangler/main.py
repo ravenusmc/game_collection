@@ -98,7 +98,11 @@ class Game():
         pygame.draw.rect(display_surface, colors[self.target_monster_type], (0,100, WINDOW_WIDTH, WINDOW_HEIGHT - 200), 4)
 
     def check_collisions(self):
-        pass
+        #Check for collision between player and individual monster 
+        collided_monster = pygame.sprite.spritecollideany(self.player, self.monster_group)
+
+        if collided_monster
+
 
     def start_new_round(self):
         pass 
