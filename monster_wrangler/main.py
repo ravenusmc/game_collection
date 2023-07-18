@@ -101,11 +101,51 @@ class Game():
         #Check for collision between player and individual monster 
         collided_monster = pygame.sprite.spritecollideany(self.player, self.monster_group)
 
-        if collided_monster
-
+        if collided_monster: 
+            if collided_monster.type == self.target_monster_type:
+                self.score += 100 * self.round_number
+                #Remove caught monster 
+                collided_monster.remove(self.monster_group)
+                if (self.monster_group):
+                    self.player.catch_sound.play()
+                    self.choose_new_target() 
+                else: 
+                    self.player.reset()
+                    self.start_new_round()
+            #Caught the wrong monster 
+            else:
+                self.player.die_sound.play()
+                self.player.lives -= 1 
+                #check for game over 
+                if self.player.lives == 0: 
+                    self.pause_game()
+                    self.reset_game()
+                self.player.reset()
 
     def start_new_round(self):
-        pass 
+        #Populate board with new monsters
+        self.score += int(10000*self.round_number/(1 + self.round_time))
+        #Reset round values 
+        self.round_time = 0
+        self.frame_count = 0 
+        self.round_number += 1 
+        self.player.warps += 1 
+
+        #Remove any remaining monsters from a game reset 
+        for monster in self.monster_group:
+            self.monster_group.remove(monster)
+        
+        #Add monsters to monster group 
+        for i in range(self.round_number):
+            self.monster_group.add(Monster(random.randint(0, WINDOW_WIDTH - 64), random.randint(100, WINDOW_HEIGHT-164), self.target_monster_images[0], 0))
+            self.monster_group.add(Monster(random.randint(0, WINDOW_WIDTH - 64), random.randint(100, WINDOW_HEIGHT-164), self.target_monster_images[1], 1))
+            self.monster_group.add(Monster(random.randint(0, WINDOW_WIDTH - 64), random.randint(100, WINDOW_HEIGHT-164), self.target_monster_images[2], 2))
+            self.monster_group.add(Monster(random.randint(0, WINDOW_WIDTH - 64), random.randint(100, WINDOW_HEIGHT-164), self.target_monster_images[3], 3))
+        
+        #Choose a new target monster 
+        self.choose_new_target()
+
+        self.next_level_sound.play()
 
     def choose_new_target(self):
         pass
@@ -151,7 +191,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = WINDOW_HEIGHT
 
     def reset(self):
-        self.rect.centerx = WINDOW//2 
+        self.rect.centerx = WINDOW_HEIGHT//2 
         self.rect.bottom = WINDOW_HEIGHT
 
 #Monster Class
@@ -187,11 +227,12 @@ my_player_group.add(my_player)
 #Create a monster group 
 my_monster_group = pygame.sprite.Group()
 #Test Monster 
-monster = Monster(500,500, pygame.image.load("./assets/green_monster.png"), 1)
-my_monster_group.add(monster)
+# monster = Monster(500,500, pygame.image.load("./assets/green_monster.png"), 1)
+# my_monster_group.add(monster)
 
 #Create a game object 
 my_game = Game(my_player, my_monster_group)
+my_game.start_new_round()
 
 #Main Game Loop 
 running = True 
