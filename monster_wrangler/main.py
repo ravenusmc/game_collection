@@ -255,9 +255,6 @@ my_player_group.add(my_player)
 
 #Create a monster group 
 my_monster_group = pygame.sprite.Group()
-#Test Monster 
-# monster = Monster(500,500, pygame.image.load("./assets/green_monster.png"), 1)
-# my_monster_group.add(monster)
 
 #Create a game object 
 my_game = Game(my_player, my_monster_group)
