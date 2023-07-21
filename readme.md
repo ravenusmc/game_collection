@@ -7,6 +7,8 @@ both through Udemy courses and on my own.
 Games in Project:
 Catch the Clown 
 Snake
+Burger Dog
+Monster Wrangler
 
 
 # Getting started
