@@ -10,7 +10,6 @@ Snake
 Burger Dog
 Monster Wrangler
 
-
 # Getting started
 ### Installing
 
@@ -24,13 +23,12 @@ Please note that these instructions are not 100% complete.
 
 1. Python-3.6
 
-
 ### Operation
 
 
 # Issues / Other
 
-None at this time
+None at this time...
 
 # Preview
 
