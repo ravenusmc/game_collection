@@ -32,4 +32,4 @@ None at this time...
 
 # Preview
 
-To see a video that talks about this project please go here: COMING SOON
+This project will have no previews.
