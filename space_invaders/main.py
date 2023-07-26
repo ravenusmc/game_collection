@@ -1,4 +1,4 @@
-#Space invaders...The arcade game
+#Space invaders...The classic arcade game
 import pygame, random 
 
 pygame.init()
