@@ -1,4 +1,5 @@
 #Space invaders...The classic arcade game
+#This is actually the second time I've built this game. 
 import pygame, random 
 
 pygame.init()
