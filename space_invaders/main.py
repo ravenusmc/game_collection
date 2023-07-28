@@ -1,5 +1,5 @@
 #Space invaders...The classic arcade game
-#This is actually the second time I've built this game. 
+#This is actually the second time I've built this game.
 import pygame, random 
 
 pygame.init()
@@ -90,6 +90,9 @@ class AlienBullet(pygame.sprite.Sprite):
 
     def update(self):
         pass 
+
+#Create Bullet groups 
+my_player_bullet_group = pygame.sprite.Group()
 
 
 #Main Game Loop 
