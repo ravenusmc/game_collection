@@ -14,7 +14,7 @@ pygame.display.set_caption("Space Invaders")
 FPS = 60 
 clock = pygame.time.Clock() 
 
-#Define classes 
+#Game class will control main elements of game. 
 class Game():
 
     def __init__(self):
