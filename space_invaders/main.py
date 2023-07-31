@@ -62,7 +62,6 @@ class Player(pygame.sprite.Sprite):
         self.bullet_group = bullet_group
         self.shoot_sound = pygame.mixer.Sound("./assets/player_fire.wav")
 
-
     def update(self):
         keys = pygame.key.get_pressed()
 
@@ -73,7 +72,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.x += self.velocity
 
     def fire(self):
-        pass 
+        """Fire a bullet"""
+        #Restrict the number of bullets on screen at a time
+        if len(self.bullet_group) < 2:
+            self.shoot_sound.play()
+            PlayerBullet(self.rect.centerx, self.rect.top, self.bullet_group)
 
     def reset(self):
         self.rect.centerx = WINDOW_WIDTH//2
@@ -94,11 +97,21 @@ class Alien(pygame.sprite.Sprite):
 
 class PlayerBullet(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pass 
+    def __init__(self, x, y, bullet_group):
+        super().__init__()
+        self.image = pygame.image.load("./assets/green_laser.png")
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x 
+        self.rect.centery = y 
+
+        self.velocity = 10 
+        bullet_group.add(self)
 
     def update(self):
-        pass 
+        self.rect.y -= self.velocity 
+        if self.rect.bottom < 0:
+            self.kill()
+
 
 class AlienBullet(pygame.sprite.Sprite):
 
@@ -129,6 +142,10 @@ while running:
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT:
             running = False 
+        #The player wants to fire 
+        if event.type == pygame.KEYDOWN: 
+            if event.key == pygame.K_SPACE:
+                my_player.fire()
     
     #Fill the display 
     display_surface.fill((0,0,0))
