@@ -107,7 +107,7 @@ class Alien(pygame.sprite.Sprite):
             self.fire()
 
     def fire(self):
-        pass 
+        AlienBullet(self.rect.centerx, self.rect.bottom, self.bullet_group)
 
     def reset(self):
         self.rect.topleft = (self.starting_x, self.starting_y)
@@ -133,11 +133,20 @@ class PlayerBullet(pygame.sprite.Sprite):
 
 class AlienBullet(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pass 
+    def __init__(self, x, y, bullet_group):
+        super().__init__()
+        self.image = pygame.image.load("./assets/red_laser.png")
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x 
+        self.rect.centery = y 
 
+        self.velocity = 10
+        bullet_group.add(self)
+        
     def update(self):
-        pass 
+        self.rect.y += self.velocity 
+        if self.rect.top > WINDOW_HEIGHT:
+            self.kill()
 
 #Create Bullet groups 
 my_player_bullet_group = pygame.sprite.Group()
@@ -150,6 +159,11 @@ my_player_group.add(my_player)
 
 #Create an alien group 
 my_alien_group = pygame.sprite.Group()
+
+#Test alien group 
+for i in range(10):
+    alien = Alien(64 + i * 64, 100, 3, my_alien_bullet_group)
+    my_alien_group.add(alien)
 
 #Create a game object
 my_game = Game()
