@@ -17,14 +17,50 @@ clock = pygame.time.Clock()
 #Game class will control main elements of game. 
 class Game():
 
-    def __init__(self):
-        pass 
+    def __init__(self, player, alien_group, player_bullet_group, alien_bullet_group):
+        self.round_number = 1 
+        self.score = 0 
+
+        self.player = player 
+        self.alien_group = alien_group
+        self.player_bullet_group = player_bullet_group
+        self.alien_bullet_group = alien_bullet_group
+
+        self.new_round_sound = pygame.mixer.Sound("./assets/new_round.wav")
+        self.breach_sound = pygame.mixer.Sound("./assets/breach.wav")
+        self.alien_hit_sound = pygame.mixer.Sound("./assets/alien_hit.wav")
+        self.player_hit_sound = pygame.mixer.Sound("./assets/player_hit.wav")
+
+        self.font = pygame.font.Font("./assets/Facon.ttf", 32)
 
     def update(self):
-        pass 
+        self.shift_aliens()
+        self.check_collisions()
+        self.check_round_completion()
 
     def draw(self):
-        pass
+        WHITE = (255,255,255)
+
+        #Set Text 
+        score_text = self.font.render("Score: " + str(self.score), True, WHITE)
+        score_rect = score_text.get_rect() 
+        score_rect.centerx = WINDOW_WIDTH//2
+        score_rect.top = 10 
+
+        round_text = self.font.render("Round: " + str(self.round_number), True, WHITE)
+        round_rect = round_text.get_rect() 
+        round_rect.topleft = (20, 10)
+
+        lives_text = self.font.render("Lives: " + str(self.player.lives), True, WHITE)
+        lives_rect = lives_text.get_rect() 
+        lives_rect.topright = (WINDOW_WIDTH - 20, 10)
+
+        #Blit the HUD to display 
+        display_surface.blit(score_text, score_rect)
+        display_surface.blit(round_text, round_rect)
+        display_surface.blit(lives_text, lives_rect)
+        pygame.draw.line(display_surface, WHITE, (0,50), (WINDOW_WIDTH, 50), 4)
+        pygame.draw.line(display_surface, WHITE, (0, WINDOW_HEIGHT - 100), (WINDOW_WIDTH, WINDOW_HEIGHT - 100), 4)
 
     def shift_aliens(self):
         pass 
@@ -36,7 +72,14 @@ class Game():
         pass
     
     def start_new_round(self):
-        pass 
+        #Create a grid of aliens 11 Columns and 5 rows 
+        for i in range(11):
+            for j in range(5):
+                alien = Alien(64 + i*64, 64 + j*64, self.round_number, self.alien_bullet_group)
+                self.alien_group.add(alien)
+        #Pause the game and prompt user to start 
+        self.new_round_sound.play()
+        self.pause_game()
 
     def check_game_status(self):
         pass 
@@ -161,12 +204,13 @@ my_player_group.add(my_player)
 my_alien_group = pygame.sprite.Group()
 
 #Test alien group 
-for i in range(10):
-    alien = Alien(64 + i * 64, 100, 3, my_alien_bullet_group)
-    my_alien_group.add(alien)
+# for i in range(10):
+#     alien = Alien(64 + i * 64, 100, 3, my_alien_bullet_group)
+#     my_alien_group.add(alien)
 
 #Create a game object
-my_game = Game()
+my_game = Game(my_player, my_alien_group, my_player_bullet_group, my_alien_bullet_group)
+my_game.start_new_round()
 
 #Main Game Loop 
 running = True 
@@ -196,7 +240,7 @@ while running:
     my_alien_bullet_group.draw(display_surface)
 
     my_game.update()
-    # my_game.draw(display_surface)
+    my_game.draw()
         
 
     pygame.display.update()
