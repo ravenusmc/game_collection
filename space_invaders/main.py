@@ -173,7 +173,6 @@ class PlayerBullet(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.kill()
 
-
 class AlienBullet(pygame.sprite.Sprite):
 
     def __init__(self, x, y, bullet_group):
@@ -203,10 +202,6 @@ my_player_group.add(my_player)
 #Create an alien group 
 my_alien_group = pygame.sprite.Group()
 
-#Test alien group 
-# for i in range(10):
-#     alien = Alien(64 + i * 64, 100, 3, my_alien_bullet_group)
-#     my_alien_group.add(alien)
 
 #Create a game object
 my_game = Game(my_player, my_alien_group, my_player_bullet_group, my_alien_bullet_group)
