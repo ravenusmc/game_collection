@@ -90,6 +90,7 @@ class Game():
     def reset_game(self):
         pass
 
+#Player class will have all player methods
 class Player(pygame.sprite.Sprite):
 
     def __init__(self, bullet_group):
