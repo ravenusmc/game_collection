@@ -18,7 +18,7 @@ clock = pygame.time.Clock()
 class Game():
 
     def __init__(self, player, alien_group, player_bullet_group, alien_bullet_group):
-        self.round_number = 1 
+        self.round_number = 0
         self.score = 0 
 
         self.player = player 
@@ -63,7 +63,27 @@ class Game():
         pygame.draw.line(display_surface, WHITE, (0, WINDOW_HEIGHT - 100), (WINDOW_WIDTH, WINDOW_HEIGHT - 100), 4)
 
     def shift_aliens(self):
-        pass 
+        shift = False 
+        for alien in (self.alien_group.sprites()):
+            if alien.rect.left <= 0 or alien.rect.right >= WINDOW_WIDTH:
+                shift = True 
+        if shift:
+            breach = False 
+            for alien in (self.alien_group.sprites()):
+                alien.rect.y += 10 * self.round_number
+                #reverse direction
+                alien.direction = -1 * alien.direction
+                alien.rect.x += alien.direction * alien.velocity
+                #check if an alien reached the ship 
+                if alien.rect.bottom >= WINDOW_HEIGHT - 100:
+                    breach = True 
+        
+            #Aliens breached the line 
+            if breach:
+                self.breach_sound.play() 
+                self.player.lives -= 1 
+                self.check_game_status()
+
 
     def check_collisions(self):
         pass 
