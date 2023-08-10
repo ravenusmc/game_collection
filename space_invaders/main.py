@@ -18,7 +18,7 @@ clock = pygame.time.Clock()
 class Game():
 
     def __init__(self, player, alien_group, player_bullet_group, alien_bullet_group):
-        self.round_number = 0
+        self.round_number = 8
         self.score = 0 
 
         self.player = player 
@@ -82,7 +82,7 @@ class Game():
             if breach:
                 self.breach_sound.play() 
                 self.player.lives -= 1 
-                self.check_game_status()
+                self.check_game_status("Aliens breached the line!", "press 'enter' to continue")
 
 
     def check_collisions(self):
@@ -99,14 +99,55 @@ class Game():
                 self.alien_group.add(alien)
         #Pause the game and prompt user to start 
         self.new_round_sound.play()
-        self.pause_game()
+        self.pause_game("Space Invaders Round " + str(self.round_number), "Press 'Enter' to begin")
 
-    def check_game_status(self):
-        pass 
+    def check_game_status(self, main_text, sub_text):
+        #Empty bullet groups and reset player and remaining aliens 
+        self.alien_bullet_group.empty()
+        self.player_bullet_group.empty()
+        self.player.reset()
+        for alien in self.alien_group:
+            alien.reset()
+        
+        #Check if game is over or round reset 
+        if self.player.lives == 0:
+            self.reset_game()
+        else:
+            self.pause_game(main_text, sub_text)
 
-    def pause_game(self):
-        pass 
+    def pause_game(self, main_text, sub_text):
+        #Global Variable 
+        global running 
+        #Set Colors 
+        WHITE = (255,255,255)
+        BLACK = (0,0,0)
 
+        main_text = self.font.render(main_text, True, WHITE)
+        main_rect = main_text.get_rect()
+        main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+        #Create Subtext 
+        sub_text = self.font.render(sub_text, True, WHITE)
+        sub_rect = sub_text.get_rect() 
+        sub_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 64)
+
+        #Blit the pause text 
+        display_surface.fill(BLACK)
+        display_surface.blit(main_text, main_rect)
+        display_surface.blit(sub_text, sub_rect)
+        pygame.display.update()
+
+        #Pause the game until the user hits enter 
+        is_paused = True 
+        while is_paused:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN: 
+                    if event.key == pygame.K_RETURN: 
+                        is_paused = False 
+                if event.type == pygame.QUIT:
+                    is_paused = False 
+                    running = False 
+                    
     def reset_game(self):
         pass
 
@@ -222,7 +263,6 @@ my_player_group.add(my_player)
 
 #Create an alien group 
 my_alien_group = pygame.sprite.Group()
-
 
 #Create a game object
 my_game = Game(my_player, my_alien_group, my_player_bullet_group, my_alien_bullet_group)
