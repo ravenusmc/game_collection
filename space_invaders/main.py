@@ -186,6 +186,7 @@ class Player(pygame.sprite.Sprite):
     def reset(self):
         self.rect.centerx = WINDOW_WIDTH//2
 
+#Alien class will deal with all alien methods
 class Alien(pygame.sprite.Sprite):
 
     def __init__(self, x, y, velocity, bullet_group):
