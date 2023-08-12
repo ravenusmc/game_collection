@@ -18,7 +18,7 @@ clock = pygame.time.Clock()
 class Game():
 
     def __init__(self, player, alien_group, player_bullet_group, alien_bullet_group):
-        self.round_number = 8
+        self.round_number = 1
         self.score = 0 
 
         self.player = player 
@@ -86,10 +86,22 @@ class Game():
 
 
     def check_collisions(self):
-        pass 
+        #see if player bullets hit aliens 
+        if pygame.sprite.groupcollide(self.player_bullet_group, self.alien_group, True, True):
+            self.alien_hit_sound.play()
+            self.score += 100
+        #see if player collided with alien bullet 
+        if pygame.sprite.spritecollide(self.player, self.alien_bullet_group, True):
+            self.player_hit_sound.play()
+            self.player.lives -= 1
+            self.check_game_status("You've been it!", "Press 'enter' to continue")
+
 
     def check_round_completion(self):
-        pass
+        if not (self.alien_group):
+            self.score += 1000 * self.round_number
+            self.round_number += 1
+            self.start_new_round()
     
     def start_new_round(self):
         #Create a grid of aliens 11 Columns and 5 rows 
@@ -149,7 +161,15 @@ class Game():
                     running = False 
                     
     def reset_game(self):
-        pass
+        self.pause_game("Final Score: " + str(self.score), "Press 'Enter' to play again")
+        self.score = 0 
+        self.round_number = 1 
+        self.player.lives = 5 
+        self.alien_group.empty()
+        self.alien_bullet_group.empty() 
+        self.player_bullet_group.empty()
+        #start new round 
+        self.start_new_round()
 
 #Player class will have all player methods
 class Player(pygame.sprite.Sprite):
@@ -161,7 +181,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WINDOW_WIDTH//2
         self.rect.bottom = WINDOW_HEIGHT
 
-        self.lives = 5
+        self.lives = 1
         self.velocity = 8 
 
         self.bullet_group = bullet_group
