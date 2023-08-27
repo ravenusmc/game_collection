@@ -1,4 +1,5 @@
 import pygame 
+vector = pygame.math.Vector2
 
 #init pygame 
 pygame.init() 
@@ -33,10 +34,30 @@ class Tile(pygame.sprite.Sprite):
         self.rect.topleft = (x,y)
 
 
+class Player(pygame.sprite.Sprite):
+
+    def __init__(self, x,y):
+        super().__init__() 
+        self.image = pygame.image.load("./assets/knight.png")
+        self.rect = self.image.get_rect()
+        self.rect.bottomleft = (x,y)
+
+        #Kinematics vectors 
+        self.position = vector(x,y)
+        self.velocity = vector(0,0)
+        self.acceleration = vector(0,0)
+
+    
+    def update(self):
+        pass
+
+
+
 #Create Sprite group 
 main_tile_group = pygame.sprite.Group()
 grass_tile_group = pygame.sprite.Group()
 water_tile_group = pygame.sprite.Group()
+my_player_group = pygame.sprite.Group()
 
 #Create the tile map 0 -> no tile, 1 -> dirt, 2 - grass 3 ->water
 #20 rows 30 columns 
@@ -52,7 +73,7 @@ tile_map = [
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,4,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2],
     [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -72,6 +93,10 @@ for i in range(len(tile_map)):
             Tile(j*32, i*32, 2, main_tile_group, grass_tile_group)
         elif tile_map[i][j] == 3:
             Tile(j*32, i*32, 3, main_tile_group, water_tile_group)
+        elif tile_map[i][j] == 4:
+            my_player = Player(j*32, i*32 + 32)
+            my_player_group.add(my_player)
+            # Tile(j*32, i*32, 4, main_tile_group, player_tile_group)
 
 #Load background image 
 background_image = pygame.image.load("./assets/background.png")   
@@ -90,6 +115,10 @@ while running:
 
     #Draw the tiles 
     main_tile_group.draw(display_surface)
+
+    #update and draw sprites 
+    my_player_group.update()
+    my_player_group.draw(display_surface)
     
     pygame.display.update() 
     clock.tick(FPS)
