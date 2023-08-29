@@ -35,24 +35,29 @@ class Tile(pygame.sprite.Sprite):
 
 
 class Player(pygame.sprite.Sprite):
+    """A player class the user can control"""
 
-    def __init__(self, x,y):
-        super().__init__() 
+    def __init__(self, x, y, grass_tiles, water_tiles):
+        super().__init__()
         self.image = pygame.image.load("./assets/knight.png")
         self.rect = self.image.get_rect()
-        self.rect.bottomleft = (x,y)
+        self.rect.bottomleft = (x, y)
 
-        #Kinematics vectors 
-        self.position = vector(x,y)
-        self.velocity = vector(0,0)
-        self.acceleration = vector(0,0)
+        self.grass_tiles = grass_tiles
+        self.water_tiles = water_tiles
 
-        #Kinematics constants 
-        self.HORIZONTAL_ACCELERATION = 2 
+        #Kinematics vectors (first value is the x, second value is the y)
+        self.position = vector(x, y)
+        self.velocity = vector(0, 0)
+        self.acceleration = vector(0, 0)
+
+        #Kinematic constants
+        self.HORIZONTAL_ACCELERATION = 2
         self.HORIZONTAL_FRICTION = 0.15
+        self.VERTICAL_ACCLERATION = .5 #Gravity
 
     def update(self):
-        self.acceleration = vector(0,0)
+        self.acceleration = vector(0, self.VERTICAL_ACCLERATION)
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
@@ -63,6 +68,15 @@ class Player(pygame.sprite.Sprite):
         self.position += self.velocity + 0.5 * self.acceleration
         #update new rect based on calculations
         self.rect.bottomleft = self.position
+
+        #Check for collisions 
+        collided_platforms = pygame.sprite.spritecollide(self, self.grass_tiles, False)
+        if collided_platforms:
+            self.position.y = collided_platforms[0].rect.top + 1
+            self.velocity.y = 0
+        #Check with collisions with water 
+        if pygame.sprite.spritecollide(self, self.water_tiles, False):
+            print("You can't Swim!")
 
 
 #Create Sprite group 
@@ -106,9 +120,8 @@ for i in range(len(tile_map)):
         elif tile_map[i][j] == 3:
             Tile(j*32, i*32, 3, main_tile_group, water_tile_group)
         elif tile_map[i][j] == 4:
-            my_player = Player(j*32, i*32 + 32)
+            my_player = Player(j*32, i*32 + 32, grass_tile_group, water_tile_group)
             my_player_group.add(my_player)
-            # Tile(j*32, i*32, 4, main_tile_group, player_tile_group)
 
 #Load background image 
 background_image = pygame.image.load("./assets/background.png")   
