@@ -1,3 +1,4 @@
+# This is actually not a game but learning some more advanced techniques
 import pygame
 vector = pygame.math.Vector2
 
