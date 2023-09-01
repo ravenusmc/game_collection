@@ -1,4 +1,4 @@
-# This is actually not a game but learning some more advanced techniques
+# This is actually not a game but learning some more advanced techniques in pygame
 import pygame
 vector = pygame.math.Vector2
 
