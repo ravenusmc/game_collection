@@ -1,4 +1,5 @@
 # This is actually not a game but learning some more advanced techniques in pygame
+# A simple map that allows a player to move around
 import pygame
 vector = pygame.math.Vector2
 
