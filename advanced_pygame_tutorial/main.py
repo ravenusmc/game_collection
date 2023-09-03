@@ -17,8 +17,6 @@ FPS = 60
 clock = pygame.time.Clock()
 
 # Classes
-
-
 class Tile(pygame.sprite.Sprite):
 
     def __init__(self, x, y, image_int, main_group, sub_group=""):
@@ -37,7 +35,7 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
 
-
+# Player class - controls all aspects of the player
 class Player(pygame.sprite.Sprite):
     """A player class the user can control"""
 
