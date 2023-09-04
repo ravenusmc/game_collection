@@ -173,7 +173,7 @@ background_image = pygame.image.load("./assets/background.png")
 background_rect = background_image.get_rect()
 background_rect.topleft = (0, 0)
 
-# Main game loop
+# Main game loop - controls the main game
 running = True
 while running:
     for event in pygame.event.get():
