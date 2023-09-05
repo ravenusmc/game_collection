@@ -41,7 +41,25 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, x, y, grass_tiles, water_tiles):
         super().__init__()
-        self.image = pygame.image.load("./assets/knight.png")
+        #Animation Frames 
+        self.move_right_sprites = []
+        self.move_left_sprites = []
+        self.idle_right_sprites = []
+        self.idle_left_sprites = [] 
+
+        #moving right sprites 
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (1).png"), (64,64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (2).png"), (64,64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (3).png"), (64,64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (4).png"), (64,64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (5).png"), (64,64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (6).png"), (64,64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (7).png"), (64,64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (8).png"), (64,64)))
+        self.current_sprite = 0
+        self.image = self.move_right_sprites[self.current_sprite]
+
+        # self.image = pygame.image.load("./assets/knight.png")
         self.rect = self.image.get_rect()
         self.rect.bottomleft = (x, y)
 
@@ -72,6 +90,7 @@ class Player(pygame.sprite.Sprite):
             self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
         if keys[pygame.K_RIGHT]:
             self.acceleration.x = self.HORIZONTAL_ACCELERATION
+            self.animate(self.move_right_sprites, .2)
         self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION
         self.velocity += self.acceleration
         self.position += self.velocity + 0.5 * self.acceleration
@@ -101,6 +120,15 @@ class Player(pygame.sprite.Sprite):
         # only jump if on a grass tile
         if pygame.sprite.spritecollide(self, self.grass_tiles, False):
             self.velocity.y = self.VERTICAL_JUMP_SPEED * -1
+    
+    def animate(self, sprite_list, speed):
+        #Loop through sprite list 
+        if self.current_sprite < len(sprite_list) - 1:
+            self.current_sprite += speed
+        else: 
+            self.current_sprite = 0 
+        
+        self.image = sprite_list[int(self.current_sprite)]
 
 
 # Create Sprite group
