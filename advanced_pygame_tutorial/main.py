@@ -56,6 +56,24 @@ class Player(pygame.sprite.Sprite):
         self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (6).png"), (64,64)))
         self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (7).png"), (64,64)))
         self.move_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Run (8).png"), (64,64)))
+        
+        #Moving left 
+        for sprite in self.move_right_sprites:
+            self.move_left_sprites.append(pygame.transform.flip(sprite, True, False))
+
+        #Idle Right 
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Idle (1).png"), (64,64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Idle (2).png"), (64,64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Idle (3).png"), (64,64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Idle (4).png"), (64,64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Idle (5).png"), (64,64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Idle (6).png"), (64,64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Idle (7).png"), (64,64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/boy/Idle (8).png"), (64,64)))
+
+        for sprite in self.idle_right_sprites:
+            self.idle_left_sprites.append(pygame.transform.flip(sprite, True, False))
+
         self.current_sprite = 0
         self.image = self.move_right_sprites[self.current_sprite]
 
@@ -88,9 +106,15 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
-        if keys[pygame.K_RIGHT]:
+            self.animate(self.move_left_sprites, .2)
+        elif keys[pygame.K_RIGHT]:
             self.acceleration.x = self.HORIZONTAL_ACCELERATION
             self.animate(self.move_right_sprites, .2)
+        else: 
+            if self.velocity.x > 0:
+                self.animate(self.idle_right_sprites, .2)
+            else: 
+                self.animate(self.idle_left_sprites, .2)
         self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION
         self.velocity += self.acceleration
         self.position += self.velocity + 0.5 * self.acceleration
