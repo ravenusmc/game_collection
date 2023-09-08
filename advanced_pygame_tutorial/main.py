@@ -25,6 +25,7 @@ class Tile(pygame.sprite.Sprite):
             self.image = pygame.image.load("./assets/dirt.png")
         elif image_int == 2:
             self.image = pygame.image.load("./assets/grass.png")
+            self.mask = pygame.mask.from_surface(self.image)
             sub_group.add(self)
         elif image_int == 3:
             self.image = pygame.image.load("./assets/water.png")
@@ -34,6 +35,9 @@ class Tile(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
+    
+    def update(self):
+        pygame.draw.rect(display_surface, (0,0,255), self.rect, 1)
 
 # Player class - controls all aspects of the player
 class Player(pygame.sprite.Sprite):
@@ -98,6 +102,12 @@ class Player(pygame.sprite.Sprite):
         self.VERTICAL_JUMP_SPEED = 15  # determines how high can jump
 
     def update(self):
+        pygame.draw.rect(display_surface, (0,255,0), self.rect, 1)
+        #Creating a mask
+        self.mask = pygame.mask.from_surface(self.image)
+        #Draw the mask 
+        mask_outline = self.mask.outline()
+        pygame.draw.lines(self.image, (255,0,0), True, mask_outline)
         self.move()
         self.check_collisions()
 
@@ -129,10 +139,10 @@ class Player(pygame.sprite.Sprite):
     def check_collisions(self):
         # Check for collisions
         collided_platforms = pygame.sprite.spritecollide(
-            self, self.grass_tiles, False)
+            self, self.grass_tiles, False, pygame.sprite.collide_mask)
         if collided_platforms:
             if self.velocity.y > 0: 
-                self.position.y = collided_platforms[0].rect.top + 1
+                self.position.y = collided_platforms[0].rect.top + 10
                 self.velocity.y = 0
         # Check with collisions with water
         if pygame.sprite.spritecollide(self, self.water_tiles, False):
@@ -240,6 +250,7 @@ while running:
 
     # Draw the tiles
     main_tile_group.draw(display_surface)
+    main_tile_group.update()
 
     # update and draw sprites
     my_player_group.update()
