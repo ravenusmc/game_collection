@@ -15,7 +15,6 @@ FPS = 60
 clock = pygame.time.Clock()
 
 #Classes 
-
 class Game():
 
     def __init__(self):
@@ -50,9 +49,107 @@ class Tile(pygame.sprite.Sprite):
     def __init__(self):
         pass 
 
+class Player(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pass 
+
+    def update(self):
+        pass 
+
+    def move(self):
+        pass
+
+    def check_collisions(self):
+        pass 
+
+    def check_animations(self):
+        pass 
+
+    def jump(self):
+        pass 
+
+    def fire(self):
+        pass 
+
+    def reset(self):
+        pass 
+
+    def animate(self):
+        pass 
+
+class Bullet(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pass 
+
+    def update(self):
+        pass 
+
+class Zombie(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pass 
+
+    def update(self):
+        pass
+
+    def move(self):
+        pass
+
+    def check_collisions(self):
+        pass 
+
+    def check_animations(self):
+        pass 
     
+    def death(self):
+        pass 
 
+    def rise(self):
+        pass
 
+    def animate(self):
+        pass 
+
+class RubyMaker(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pass 
+
+    def update(self):
+        pass 
+
+    def animate(self):
+        pass 
+
+class Ruby(pygame.sprite.Sprite): 
+
+    def __init__(self):
+        pass 
+
+    def update(self):
+        pass 
+
+    def check_collisions(self):
+        pass 
+
+    def move(self):
+        pass
+
+    def animate(self):
+        pass 
+
+class Portal(pygame.sprite.Sprite): 
+
+    def __init__(self):
+        pass 
+
+    def update(self):
+        pass 
+
+    def animate(self):
+        pass 
 
 #Background Image
 background_image = pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
