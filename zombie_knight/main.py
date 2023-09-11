@@ -46,8 +46,29 @@ class Game():
 
 class Tile(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pass 
+    def __init__(self, x, y, image_int, main_group, sub_group=''):
+        super().__init__() 
+        if image_int == 1:
+            self.image = pygame.transform.scale(pygame.image.load("./assets/images/tiles/Tile (1).png"), (32,32))
+        elif image_int == 2:
+            self.image = pygame.transform.scale(pygame.image.load("./assets/images/tiles/Tile (2).png"), (32,32))
+            sub_group.add(self)
+        elif image_int == 3:
+            self.image = pygame.transform.scale(pygame.image.load("./assets/images/tiles/Tile (3).png"), (32,32))
+            sub_group.add(self)
+        elif image_int == 4:
+            self.image = pygame.transform.scale(pygame.image.load("./assets/images/tiles/Tile (4).png"), (32,32))
+            sub_group.add(self)
+        elif image_int == 5:
+            self.image = pygame.transform.scale(pygame.image.load("./assets/images/tiles/Tile (5).png"), (32,32))
+            sub_group.add(self)
+        #Add every tile to the main group 
+        main_group.add(self)
+
+        #Get Rect of image 
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x,y)
+         
 
 class Player(pygame.sprite.Sprite):
 
@@ -189,6 +210,31 @@ tile_map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
+#Tile objects
+for i in range(len(tile_map)):
+    for j in range(len(tile_map[i])):
+        #Dirt Tile 
+        if tile_map[i][j] == 1:
+            Tile(j*32, i*32, 1, my_main_tile_group)
+        elif tile_map[i][j] == 2: 
+            Tile(j*32, i*32, 2, my_main_tile_group, my_platform_group)
+        elif tile_map[i][j] == 3: 
+            Tile(j*32, i*32, 3, my_main_tile_group, my_platform_group)
+        elif tile_map[i][j] == 4: 
+            Tile(j*32, i*32, 4, my_main_tile_group, my_platform_group)
+        elif tile_map[i][j] == 5: 
+            Tile(j*32, i*32, 5, my_main_tile_group, my_platform_group)
+        elif tile_map[i][j] == 6: 
+            pass
+            # Tile(j*32, i*32, 6, my_main_tile_group, my_platform_group)
+        elif tile_map[i][j] == 7: 
+            pass
+        elif tile_map[i][j] == 8: 
+            pass
+        elif tile_map[i][j] == 9: 
+            pass
+        
+
 #Background Image
 background_image = pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
 background_rect = background_image.get_rect()
@@ -206,6 +252,9 @@ while running:
 
     # Blit the background
     display_surface.blit(background_image, background_rect)
+
+    # Draw the tiles 
+    my_main_tile_group.draw(display_surface)
 
     pygame.display.update()
     clock.tick(FPS)
