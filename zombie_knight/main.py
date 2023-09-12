@@ -135,14 +135,36 @@ class Zombie(pygame.sprite.Sprite):
 
 class RubyMaker(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pass 
+    def __init__(self, x, y, main_group):
+        super().__init__()
+        #Animation Frames 
+        self.ruby_sprites = []
+        # Rotating 
+        self.ruby_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile000.png"), (64,64)))
+        self.ruby_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile001.png"), (64,64)))
+        self.ruby_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile002.png"), (64,64)))
+        self.ruby_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile003.png"), (64,64)))
+        self.ruby_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile004.png"), (64,64)))
+        self.ruby_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile005.png"), (64,64)))
+        self.ruby_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/ruby/tile006.png"), (64,64)))
+         
+        #load images and get rect 
+        self.current_sprite = 0 
+        self.image = self.ruby_sprites[self.current_sprite]
+        self.rect = self.image.get_rect() 
+        self.rect.bottomleft = (x,y)
+
+        main_group.add(self)
 
     def update(self):
-        pass 
+        self.animate(self.ruby_sprites, .25)
 
-    def animate(self):
-        pass 
+    def animate(self, sprite_list, speed):
+        if self.current_sprite < len(sprite_list) - 1: 
+            self.current_sprite += speed 
+        else: 
+            self.current_sprite = 0 
+        self.image = sprite_list[int(self.current_sprite)]
 
 class Ruby(pygame.sprite.Sprite): 
 
@@ -225,8 +247,7 @@ for i in range(len(tile_map)):
         elif tile_map[i][j] == 5: 
             Tile(j*32, i*32, 5, my_main_tile_group, my_platform_group)
         elif tile_map[i][j] == 6: 
-            pass
-            # Tile(j*32, i*32, 6, my_main_tile_group, my_platform_group)
+            RubyMaker(j*32, i*32, my_main_tile_group)
         elif tile_map[i][j] == 7: 
             pass
         elif tile_map[i][j] == 8: 
@@ -254,6 +275,7 @@ while running:
     display_surface.blit(background_image, background_rect)
 
     # Draw the tiles 
+    my_main_tile_group.update()
     my_main_tile_group.draw(display_surface)
 
     pygame.display.update()
