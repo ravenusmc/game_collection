@@ -69,7 +69,6 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x,y)
          
-
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -185,14 +184,66 @@ class Ruby(pygame.sprite.Sprite):
 
 class Portal(pygame.sprite.Sprite): 
 
-    def __init__(self):
-        pass 
+    def __init__(self, x, y, color, portal_group):
+        super().__init__()
+        self.portal_sprites = []
+        if color == "green":
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile000.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile001.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile002.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile003.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile004.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile005.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile006.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile007.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile008.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile009.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile010.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile011.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile012.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile013.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile014.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile015.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile016.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile017.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile018.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile019.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile020.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile021.png"), (72,72)))
+        else: 
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/purple/tile000.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/purple/tile001.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/purple/tile002.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/purple/tile003.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile004.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile005.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile006.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile007.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile008.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile009.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile010.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile011.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile012.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile013.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile014.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile015.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile016.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile017.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile018.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile019.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile020.png"), (72,72)))
+            self.portal_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/portals/green/tile021.png"), (72,72)))
+
 
     def update(self):
         pass 
 
     def animate(self):
-        pass 
+        if self.current_sprite < len(sprite_list) - 1: 
+            self.current_sprite += speed 
+        else: 
+            self.current_sprite = 0 
+        self.image = sprite_list[int(self.current_sprite)]
 
 #Create Sprite group 
 my_main_tile_group = pygame.sprite.Group()
