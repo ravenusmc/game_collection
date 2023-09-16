@@ -14,7 +14,7 @@ pygame.display.set_caption("Zombie Knight")
 FPS = 60
 clock = pygame.time.Clock()
 
-#Classes to control all aspects of game 
+#Classes to control all aspects of the game
 class Game():
 
     def __init__(self):
