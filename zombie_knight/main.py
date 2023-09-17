@@ -18,13 +18,35 @@ clock = pygame.time.Clock()
 class Game():
 
     def __init__(self):
-        pass 
+        self.STARTING_ROUND_TIME = 30
+        self.score = 0 
+        self.round_number = 1 
+        self.frame_count = 0
+        self.round_time = self.STARTING_ROUND_TIME
+
+        #Fonts 
+        self.title_font = pygame.font.Font("./assets/font/Poultrygeist.ttf", 48)
+        self.HUD_FONT = pygame.font.Font("./assets/font/Pixel.ttf", 24)
 
     def update(self):
-        pass 
+        #Update round time 
+        self.frame_count += 1
+        if self.frame_count % FPS == 0: 
+             self.round_time -= 1 
+             self.frame_count = 0
+
 
     def draw(self):
-        pass
+        #set colors 
+        WHITE = (255,255,255)
+        GREEN = (25,200,25)
+
+        score_text = self.HUD_FONT.render("Score: " + str(self.score), True, WHITE)
+        score_rect = self.score_text.get_rect()
+        score_rect.topleft(10, WINDOW_HEIGHT - 50)
+
+        #Health Text 
+        health
 
     def add_zombie(self):
         pass 
