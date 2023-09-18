@@ -25,8 +25,8 @@ class Game():
         self.round_time = self.STARTING_ROUND_TIME
 
         #Fonts 
-        self.title_font = pygame.font.Font("./assets/font/Poultrygeist.ttf", 48)
-        self.HUD_FONT = pygame.font.Font("./assets/font/Pixel.ttf", 24)
+        self.title_font = pygame.font.Font("./assets/fonts/Poultrygeist.ttf", 48)
+        self.HUD_FONT = pygame.font.Font("./assets/fonts/Pixel.ttf", 24)
 
     def update(self):
         #Update round time 
@@ -42,11 +42,33 @@ class Game():
         GREEN = (25,200,25)
 
         score_text = self.HUD_FONT.render("Score: " + str(self.score), True, WHITE)
-        score_rect = self.score_text.get_rect()
-        score_rect.topleft(10, WINDOW_HEIGHT - 50)
+        score_rect = score_text.get_rect()
+        score_rect.topleft = (10, WINDOW_HEIGHT - 50)
 
         #Health Text 
-        health
+        health_text = self.HUD_FONT.render("Health: " + str(100), True, WHITE)
+        health_rect = health_text.get_rect()
+        health_rect.topleft = (10, WINDOW_HEIGHT - 25)
+
+        #Title Font 
+        title_text = self.title_font.render("Zombie Knight", True, GREEN)
+        title_rect = title_text.get_rect()
+        title_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT - 25)
+
+        round_text = self.HUD_FONT.render("Night: " + str(self.round_number), True, WHITE)
+        round_rect = round_text.get_rect()
+        round_rect.topright = (WINDOW_WIDTH - 10, WINDOW_HEIGHT - 50)
+
+        time_text = self.HUD_FONT.render("Sunrise In: " + str(self.round_time), True, WHITE)
+        time_rect = time_text.get_rect()
+        time_rect.topright = (WINDOW_WIDTH - 10, WINDOW_HEIGHT - 25)
+
+        #Draw the HUD 
+        display_surface.blit(score_text, score_rect)
+        display_surface.blit(health_text, health_rect)
+        display_surface.blit(title_text, title_rect)
+        display_surface.blit(round_text, round_rect)
+        display_surface.blit(time_text, time_rect)
 
     def add_zombie(self):
         pass 
@@ -341,6 +363,9 @@ background_image = pygame.transform.scale(pygame.image.load("./assets/images/bac
 background_rect = background_image.get_rect()
 background_rect.topleft = (0, 0)
 
+#Create game object 
+my_game = Game()
+ 
 # Main game loop
 running = True
 while running:
@@ -361,6 +386,10 @@ while running:
     #Update and draw sprite groups 
     my_portal_group.update()
     my_portal_group.draw(display_surface)
+
+    #Update and draw game 
+    my_game.update()
+    my_game.draw()
 
     pygame.display.update()
     clock.tick(FPS)
