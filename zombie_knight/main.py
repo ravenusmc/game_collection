@@ -119,7 +119,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.HORIZONTAL_ACCELERATION = 2 
         self.HORIZONTAL_FRICTION = 0.15 
-        self.VERTICAL_ACCLERATION = 0.8 
+        self.VERTICAL_ACCLERATION = 0.8 #Gravity 
         self.VERTICAL_JUMP_SPEED = 18 
         self.STARTING_HEALTH = 100 
 
@@ -222,10 +222,30 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self):
-        pass 
+        self.move()
+        self.check_collisions()
+        self.check_animations()
 
     def move(self):
-        pass
+        self.acceleration = vector(0, self.VERTICAL_ACCLERATION)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
+        elif keys[pygame.K_RIGHT]:
+            self.acceleration.x = 1 * self.HORIZONTAL_ACCELERATION
+        
+        #Calculate new values 
+        self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION
+        self.velocity += self.acceleration
+        self.position += self.velocity + 0.5 * self.acceleration
+
+        #Update rect based on calc
+        if self.position.x < 0: 
+            self.position.x = WINDOW_WIDTH
+        elif self.position.x > WINDOW_WIDTH:
+            self.position.x = 0 
+        
+        self.rect.bottomleft = self.position
 
     def check_collisions(self):
         pass 
@@ -458,9 +478,10 @@ for i in range(len(tile_map)):
         elif tile_map[i][j] == 8: 
             Portal(j*32, i*32, 'purple', my_portal_group)
         elif tile_map[i][j] == 9: 
-            pass
-        
+            my_player = Player(j*32 -32, i*32 + 32, my_platform_group, my_portal_group, my_bullet_group)
+            my_player_group.add(my_player)
 
+        
 #Background Image
 background_image = pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
 background_rect = background_image.get_rect()
@@ -489,6 +510,9 @@ while running:
     #Update and draw sprite groups 
     my_portal_group.update()
     my_portal_group.draw(display_surface)
+
+    my_player_group.update() 
+    my_player_group.draw(display_surface)
 
     #Update and draw game 
     my_game.update()
