@@ -248,13 +248,44 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottomleft = self.position
 
     def check_collisions(self):
-        pass 
+        #Collision check between player and platform 
+        if self.velocity.y > 0: 
+            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False)
+            if collided_platforms:
+                self.position.y = collided_platforms[0].rect.top + 1
+                self.velocity.y = 0 
+        
+        if self.velocity.y < 0: 
+            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False)
+            if collided_platforms:
+                self.velocity.y = 0 
+                while pygame.sprite.spritecollide(self, self.platform_group, False):
+                    self.position.y += 1
+                    self.rect.bottomleft = self.position
+        
+        #Collision check for portals 
+        if pygame.sprite.spritecollide(self, self.portal_group, False):
+            self.portal_sound.play()
+            if self.position.x > WINDOW_WIDTH//2:
+                self.position.x = 86
+            else:
+                self.position.x = WINDOW_WIDTH - 150 
+            # Top and Bottom 
+            if self.position.y > WINDOW_HEIGHT//2: 
+                self.position.y = 64 
+            else: 
+                self.position.y = WINDOW_HEIGHT - 132 
+            self.rect.bottomleft = self.position
 
+        
     def check_animations(self):
         pass 
 
     def jump(self):
-        pass 
+        #Only jump on platform 
+        if pygame.sprite.spritecollide(self, self.platform_group, False):
+            self.jump_sound.play()
+            self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
 
     def fire(self):
         pass 
@@ -496,9 +527,9 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_SPACE:
-        #         my_player.jump()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                my_player.jump()
 
     # Blit the background
     display_surface.blit(background_image, background_rect)
