@@ -231,8 +231,15 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
+            self.animate(self.move_left_sprites, .5)
         elif keys[pygame.K_RIGHT]:
             self.acceleration.x = 1 * self.HORIZONTAL_ACCELERATION
+            self.animate(self.move_right_sprites, .5)
+        else: 
+            if self.velocity.x > 0:
+                self.animate(self.idle_right_sprites, .5)
+            else: 
+                self.animate(self.idle_left_sprites, .5)
         
         #Calculate new values 
         self.acceleration.x -= self.velocity.x * self.HORIZONTAL_FRICTION
@@ -279,7 +286,7 @@ class Player(pygame.sprite.Sprite):
 
         
     def check_animations(self):
-        pass 
+        pass
 
     def jump(self):
         #Only jump on platform 
@@ -291,10 +298,15 @@ class Player(pygame.sprite.Sprite):
         pass 
 
     def reset(self):
-        pass 
+        self.position = vector(self.starting_x, self.starting_y)
+        self.rect.bottomleft = self.position
 
-    def animate(self):
-        pass 
+    def animate(self, sprite_list, speed):
+        if self.current_sprite < len(sprite_list) - 1: 
+            self.current_sprite += speed 
+        else: 
+            self.current_sprite = 0 
+        self.image = sprite_list[int(self.current_sprite)]
 
 class Bullet(pygame.sprite.Sprite):
 
