@@ -284,18 +284,32 @@ class Player(pygame.sprite.Sprite):
                 self.position.y = WINDOW_HEIGHT - 132 
             self.rect.bottomleft = self.position
 
-        
     def check_animations(self):
-        pass
+        #animate jump 
+        if self.animate_jump:
+            if self.velocity.x > 0: 
+                self.animate(self.jump_right_sprites, .1)
+            else: 
+                self.animate(self.jump_left_sprites, .1)
+        
+        #Animate player attack 
+        if self.animate_fire:
+            if self.velocity.x > 0: 
+                self.animate(self.attack_right_sprites, .25)
+            else: 
+                self.animate(self.attack_left_sprites, .25)
 
     def jump(self):
         #Only jump on platform 
         if pygame.sprite.spritecollide(self, self.platform_group, False):
             self.jump_sound.play()
             self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
+            self.animate_jump = True
 
     def fire(self):
-        pass 
+        self.slash_sound.play()
+        Bullet(self.rect.centerx, self.rect.centery, self.bullet_group, self)
+        self.animate_fire = True 
 
     def reset(self):
         self.position = vector(self.starting_x, self.starting_y)
@@ -306,15 +320,37 @@ class Player(pygame.sprite.Sprite):
             self.current_sprite += speed 
         else: 
             self.current_sprite = 0 
+            if self.animate_jump:
+                self.animate_jump = False
+            #End attack animation 
+            if self.animate_fire: 
+                self.animate_fire = False
         self.image = sprite_list[int(self.current_sprite)]
 
 class Bullet(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pass 
+    def __init__(self,x,y, bullet_group, player):
+        super().__init__() 
+        self.VELOCITY = 20 
+        self.RANGE = 500 
+
+        #Load image and get rect 
+        if player.velocity.x > 0: 
+            self.image = pygame.transform.scale(pygame.image.load("./assets/images/player/slash.png"), (32,32))
+        else: 
+            self.image = pygame.transform.scale(pygame.transform.flip(pygame.image.load("./assets/images/player/slash.png"), True, False), (32,32))
+            self.VELOCITY = -1 * self.VELOCITY
+        
+        self.rect = self.image.get_rect()
+        self.rect.center = (x,y)
+
+        self.starting_x = x 
+        bullet_group.add(self)
 
     def update(self):
-        pass 
+        self.rect.x += self.VELOCITY
+        if abs(self.rect.x - self.starting_x) > self.RANGE: 
+            self.kill()
 
 class Zombie(pygame.sprite.Sprite):
 
@@ -523,8 +559,7 @@ for i in range(len(tile_map)):
         elif tile_map[i][j] == 9: 
             my_player = Player(j*32 -32, i*32 + 32, my_platform_group, my_portal_group, my_bullet_group)
             my_player_group.add(my_player)
-
-        
+      
 #Background Image
 background_image = pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
 background_rect = background_image.get_rect()
@@ -539,9 +574,14 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
         if event.type == pygame.KEYDOWN:
+            #Player wants to jump
             if event.key == pygame.K_SPACE:
                 my_player.jump()
+            #Player wants to fire
+            if event.key == pygame.K_UP: 
+                my_player.fire()
 
     # Blit the background
     display_surface.blit(background_image, background_rect)
@@ -556,6 +596,9 @@ while running:
 
     my_player_group.update() 
     my_player_group.draw(display_surface)
+
+    my_bullet_group.update()
+    my_bullet_group.draw(display_surface)
 
     #Update and draw game 
     my_game.update()
