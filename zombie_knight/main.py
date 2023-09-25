@@ -354,8 +354,24 @@ class Bullet(pygame.sprite.Sprite):
 
 class Zombie(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pass 
+    def __init__(self, platform_group, portal_group, min_speed, max_speed):
+        super().__init__()
+        self.VERTICAL_ACCLERATION = 3 #Gravity 
+        self.RISE_TIME = 2 
+         
+        #animation frames 
+        self.walk_right_sprites = []
+        self.walk_left_sprites = []
+        self.die_right_sprites = []
+        self.die_left_sprites = []
+        self.rise_right_sprites = []
+        self.rise_left_spirtes = []
+
+        gender = random.randint(0,1)
+        if gender == 0: 
+            #walking 
+            self.walk_right_sprites.append()
+
 
     def update(self):
         pass
