@@ -370,8 +370,45 @@ class Zombie(pygame.sprite.Sprite):
         gender = random.randint(0,1)
         if gender == 0: 
             #walking 
-            self.walk_right_sprites.append()
-
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (1).png"), (64,64)))
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (2).png"), (64,64)))
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (3).png"), (64,64)))
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (4).png"), (64,64)))
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (5).png"), (64,64)))
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (6).png"), (64,64)))
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (7).png"), (64,64)))
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (8).png"), (64,64)))
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (9).png"), (64,64)))
+            self.walk_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/walk/walk (10).png"), (64,64)))
+            for sprite in self.walk_right_sprites:
+                self.walk_left_sprites.append(pygame.transform.flip(sprite, True, False))
+            #dying 
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (1).png"), (64,64)))
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (2).png"), (64,64)))
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (3).png"), (64,64)))
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (4).png"), (64,64)))
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (5).png"), (64,64)))
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (6).png"), (64,64)))
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (7).png"), (64,64)))
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (8).png"), (64,64)))
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (9).png"), (64,64)))
+            self.die_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (10).png"), (64,64)))
+            for sprite in self.die_right_sprites:
+                self.die_left_sprites.append(pygame.transform.flip(sprite, True, False))
+        
+            #Rising 
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (10).png"), (64,64)))
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (9).png"), (64,64)))
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (8).png"), (64,64)))
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (7).png"), (64,64)))
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (6).png"), (64,64)))
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (5).png"), (64,64)))
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (4).png"), (64,64)))
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (3).png"), (64,64)))
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (2).png"), (64,64)))
+            self.rise_right_sprites.append(pygame.transform.scale(pygame.image.load("./assets/images/zombie/boy/dead/Dead (1).png"), (64,64)))
+            for sprite in self.rise_right_sprites:
+                self.rise_left_sprites.append(pygame.transform.flip(sprite, True, False))
 
     def update(self):
         pass
