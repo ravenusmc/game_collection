@@ -479,12 +479,11 @@ class Zombie(pygame.sprite.Sprite):
         self.velocity = vector(self.direction * random.randint(min_speed, max_speed), 0)
         self.acceleration = vector(0, self.VERTICAL_ACCLERATION)
 
-        #initial values 
+        #initial values for zombie
         self.is_dead = False 
         self.round_time = 0 
         self.frame_count = 0 
         
-
     def update(self):
         pass
 
