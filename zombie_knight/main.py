@@ -451,7 +451,7 @@ class Zombie(pygame.sprite.Sprite):
             for sprite in self.rise_right_sprites:
                 self.rise_left_sprites.append(pygame.transform.flip(sprite, True, False))
         
-        #Load Image and get rect 
+        #Load Image and get rect for zombie
         self.direction = random.choice([-1,1])
         self.current_sprite = 0 
         if self.direction == -1: 
