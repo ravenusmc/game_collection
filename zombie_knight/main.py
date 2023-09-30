@@ -365,7 +365,7 @@ class Zombie(pygame.sprite.Sprite):
         self.die_right_sprites = []
         self.die_left_sprites = []
         self.rise_right_sprites = []
-        self.rise_left_spirtes = []
+        self.rise_left_sprites = []
 
         gender = random.randint(0,1)
         if gender == 0: 
@@ -485,16 +485,60 @@ class Zombie(pygame.sprite.Sprite):
         self.frame_count = 0 
         
     def update(self):
-        pass
+        self.move()
+        self.check_collisions()
+        self.check_collisions()
 
     def move(self):
-        pass
+        #Don't need to update acceleration 
+        #Calculate new values 
+        self.velocity += self.acceleration
+        self.position += self.velocity + 0.5 * self.acceleration
+
+        #Update rect based on calc
+        if self.position.x < 0: 
+            self.position.x = WINDOW_WIDTH
+        elif self.position.x > WINDOW_WIDTH:
+            self.position.x = 0 
+        
+        self.rect.bottomleft = self.position
 
     def check_collisions(self):
-        pass 
+        #Collision check between zombie and platform 
+        collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False)
+        if collided_platforms:
+            self.position.y = collided_platforms[0].rect.top + 1
+            self.velocity.y = 0 
+        
+        #Collision check for portals 
+        if pygame.sprite.spritecollide(self, self.portal_group, False):
+            self.portal_sound.play()
+            if self.position.x > WINDOW_WIDTH//2:
+                self.position.x = 86
+            else:
+                self.position.x = WINDOW_WIDTH - 150 
+            # Top and Bottom 
+            if self.position.y > WINDOW_HEIGHT//2: 
+                self.position.y = 64 
+            else: 
+                self.position.y = WINDOW_HEIGHT - 132 
+            self.rect.bottomleft = self.position
+
 
     def check_animations(self):
-        pass 
+        #animate jump 
+        if self.animate_jump:
+            if self.velocity.x > 0: 
+                self.animate(self.jump_right_sprites, .1)
+            else: 
+                self.animate(self.jump_left_sprites, .1)
+        
+        #Animate player attack 
+        if self.animate_fire:
+            if self.velocity.x > 0: 
+                self.animate(self.attack_right_sprites, .25)
+            else: 
+                self.animate(self.attack_left_sprites, .25)
     
     def death(self):
         pass 
@@ -709,6 +753,11 @@ while running:
             #Player wants to fire
             if event.key == pygame.K_UP: 
                 my_player.fire()
+            #Rain zombies...for testing purposes 
+            if event.key == pygame.K_RETURN:
+                zombie = Zombie(my_platform_group, my_portal_group, 2,7)
+                my_zombie_group.add(zombie)
+
 
     # Blit the background
     display_surface.blit(background_image, background_rect)
@@ -726,6 +775,9 @@ while running:
 
     my_bullet_group.update()
     my_bullet_group.draw(display_surface)
+
+    my_zombie_group.update() 
+    my_zombie_group.draw(display_surface)
 
     #Update and draw game 
     my_game.update()
