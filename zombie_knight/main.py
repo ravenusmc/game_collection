@@ -19,10 +19,12 @@ class Game():
 
     def __init__(self, player, zombie_group, platform_group, portal_group, bullet_group, ruby_group):
         self.STARTING_ROUND_TIME = 30
+        self.STARTING_ZOMBIE_CREATION_TIME = 5
         self.score = 0 
         self.round_number = 1 
         self.frame_count = 0
         self.round_time = self.STARTING_ROUND_TIME
+        self.zombie_creation_time = self.STARTING_ZOMBIE_CREATION_TIME
 
         #Fonts 
         self.title_font = pygame.font.Font("./assets/fonts/Poultrygeist.ttf", 48)
@@ -44,6 +46,9 @@ class Game():
              self.frame_count = 0
         #Check for gameplay collisions 
         self.check_collisions()
+
+        #Add zombies
+        self.add_zombie()
 
     def draw(self):
         #set colors 
@@ -80,8 +85,12 @@ class Game():
         display_surface.blit(time_text, time_rect)
 
     def add_zombie(self):
-        pass 
-
+        #Check to add a zombie every second 
+        if self.frame_count % FPS == 0:
+            if self.round_time % self.zombie_creation_time == 0:
+                zombie = Zombie(self.platform_group, self.portal_group, self.round_number, 5 + self.round_number)
+                self.zombie_group.add(zombie)  
+                
     def check_collisions(self):
         #See if a player bullet collided with any zombie - in the zombie group
         collision_dict = pygame.sprite.groupcollide(self.bullet_group, self.zombie_group, True, False)
@@ -108,8 +117,6 @@ class Game():
                    self.player.position.x -= 256 * zombie.direction
                    self.player.rect.bottomleft = self.player.position 
                    
-
-
     def check_round_completion(self):
         pass 
 
