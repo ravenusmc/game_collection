@@ -85,7 +85,7 @@ class Game():
         display_surface.blit(time_text, time_rect)
 
     def add_zombie(self):
-        #Check to add a zombie every second 
+        #Check to add a zombie every second of gameplay
         if self.frame_count % FPS == 0:
             if self.round_time % self.zombie_creation_time == 0:
                 zombie = Zombie(self.platform_group, self.portal_group, self.round_number, 5 + self.round_number)
