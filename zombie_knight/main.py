@@ -660,8 +660,10 @@ class RubyMaker(pygame.sprite.Sprite):
 
 class Ruby(pygame.sprite.Sprite): 
 
-    def __init__(self):
-        pass 
+    def __init__(self, platform_group, portal_group):
+        super().__init__() 
+        self.VERTICAL_ACCLERATION = 3 
+        self.HORIZONTAL_VELOCITY = 5
 
     def update(self):
         pass 
