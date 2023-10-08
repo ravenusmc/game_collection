@@ -908,7 +908,7 @@ while running:
     my_main_tile_group.update()
     my_main_tile_group.draw(display_surface)
 
-    #Update and draw sprite groups 
+    #Update and draw sprite groups for the game
     my_portal_group.update()
     my_portal_group.draw(display_surface)
 
