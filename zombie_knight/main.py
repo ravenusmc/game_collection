@@ -924,7 +924,7 @@ while running:
     my_ruby_group.update()
     my_ruby_group.draw(display_surface)
 
-    #Update and draw game 
+    #Update and draw game assets
     my_game.update()
     my_game.draw()
 
