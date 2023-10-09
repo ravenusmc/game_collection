@@ -811,7 +811,7 @@ class Portal(pygame.sprite.Sprite):
             self.current_sprite = 0 
         self.image = sprite_list[int(self.current_sprite)]
 
-#Create Sprite group 
+#Create Sprite groups 
 my_main_tile_group = pygame.sprite.Group()
 my_platform_group = pygame.sprite.Group() 
 my_player_group = pygame.sprite.Group() 
@@ -820,7 +820,7 @@ my_zombie_group = pygame.sprite.Group()
 my_portal_group = pygame.sprite.Group()  
 my_ruby_group = pygame.sprite.Group() 
 
-#Create tile map 
+#Create tile map for the game
 # 0 -> no tile, 1 -> dirt 2-5 -> platforms, 6 -> ruby maker 7-8 -> portals, 9 - player
 #23 rows and 40 columns 
 tile_map = [
