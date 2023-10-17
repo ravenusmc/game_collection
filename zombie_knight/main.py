@@ -50,11 +50,9 @@ class Game():
         if self.frame_count % FPS == 0: 
              self.round_time -= 1 
              self.frame_count = 0
-        #Check for gameplay collisions 
         self.check_collisions()
-
-        #Add zombies
         self.add_zombie()
+        self.check_round_completion()
 
     def draw(self):
         #set colors 
@@ -141,21 +139,72 @@ class Game():
                     self.lost_ruby_sound.play() 
                     zombie = Zombie(self.platform_group, self.portal_group, self.round_number, 5 + self.round_number)
                     self.zombie_group.add(zombie)
-            
-
-                   
+            if event.tpye == pygame.QUIT: 
+                is_paused = False 
+                running = False 
+                pygame.mixer.music.stop()
+                     
     def check_round_completion(self):
-        pass 
+        if self.round_time == 0:
+            self.start_new_round()
 
     def check_game_over(self):
         pass
 
     def start_new_round(self):
-        pass 
+        self.round_number += 1
+        #Decrease Zombie Creation time 
+        if self.round_number < self.STARTING_ZOMBIE_CREATION_TIME:
+            self.zombie_creation_time -= 1 
+        #Reset round values 
+        self.round_time = self.STARTING_ROUND_TIME
+        self.zombie_group.empty()
+        self.ruby_group.empty()
+        self.bullet_group.empty()
+        self.player.reset()
+        self.pause_game("You Survived the Night!", "Press 'Enter' to continue...")
 
-    def pause_game(self):
-        pass 
+    def pause_game(self, main_text, sub_text):
+        global running 
+        pygame.mixer.music.pause()
+        #Set Colors 
+        WHITE = (255,255,255)
+        BLACK = (0,0,0)
+        GREEN = (25, 200, 25)
 
+        #Create main pause Text 
+        main_text = self.title_font.render(main_text, True, GREEN)
+        main_rect = main_text.get_rect() 
+        main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+        #Create sub pause text 
+        sub_text = self.title_font.render(sub_text, True, WHITE)
+        sub_rect = sub_text.get_rect()
+        sub_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 64)
+
+        #Display the pause text 
+        display_surface.fill(BLACK)
+        display_surface.blit(main_text, main_rect)
+        display_surface.blit(sub_text, sub_rect)
+        pygame.display.update()
+
+        is_paused = True 
+        while is_paused:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN: 
+                    if event.key == pygame.K_RETURN:
+                        is_paused = False
+                        pygame.mixer.music.unpause()
+                #User wants to quit 
+                if event.type == pygame.QUIT: 
+                    is_paused = False
+                    running = False 
+                    pygame.mixer.music.stop()
+    
+    def reset_game(self):
+        pass
+
+    
 class Tile(pygame.sprite.Sprite):
 
     def __init__(self, x, y, image_int, main_group, sub_group=''):
@@ -904,7 +953,9 @@ background_rect.topleft = (0, 0)
 
 #Create game object 
 my_game = Game(my_player, my_zombie_group, my_platform_group, my_portal_group, my_bullet_group, my_ruby_group)
- 
+my_game.pause_game("Zombie Knight", "Press 'enter' to Begin")
+pygame.mixer.music.play(-1,0.0)
+
 # Main game loop
 running = True
 while running:
