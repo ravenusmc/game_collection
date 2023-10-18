@@ -53,6 +53,7 @@ class Game():
         self.check_collisions()
         self.add_zombie()
         self.check_round_completion()
+        self.check_game_over()
 
     def draw(self):
         #set colors 
@@ -149,7 +150,10 @@ class Game():
             self.start_new_round()
 
     def check_game_over(self):
-        pass
+        if self.player.health <= 0:
+            pygame.mixer.music.stop()
+            self.pause_game("Game Over! Final Score: " + str(self.score), "Press 'enter' to play again...")
+            self.reset_game()
 
     def start_new_round(self):
         self.round_number += 1
@@ -202,7 +206,14 @@ class Game():
                     pygame.mixer.music.stop()
     
     def reset_game(self):
-        pass
+        self.score = 0 
+        self.round_number = 1 
+        self.round_time = self.STARTING_ROUND_TIME
+        self.zombie_creation_time = self.STARTING_ZOMBIE_CREATION_TIME
+
+        self.player.health = self.player.STARTING_HEALTH
+        self.player.reset()
+        
 
     
 class Tile(pygame.sprite.Sprite):
