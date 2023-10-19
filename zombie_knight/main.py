@@ -140,7 +140,7 @@ class Game():
                     self.lost_ruby_sound.play() 
                     zombie = Zombie(self.platform_group, self.portal_group, self.round_number, 5 + self.round_number)
                     self.zombie_group.add(zombie)
-            if event.tpye == pygame.QUIT: 
+            if event.type == pygame.QUIT: 
                 is_paused = False 
                 running = False 
                 pygame.mixer.music.stop()
@@ -213,9 +213,16 @@ class Game():
 
         self.player.health = self.player.STARTING_HEALTH
         self.player.reset()
+
+        #Empty Sprite Groups 
+        self.zombie_group.empty() 
+        self.ruby_group.empty()
+        self.bullet_group.empty()
+
+        pygame.mixer.music.play(-1, 0.0)
         
 
-    
+  
 class Tile(pygame.sprite.Sprite):
 
     def __init__(self, x, y, image_int, main_group, sub_group=''):
@@ -240,6 +247,9 @@ class Tile(pygame.sprite.Sprite):
         #Get Rect of image 
         self.rect = self.image.get_rect()
         self.rect.topleft = (x,y)
+
+        #Create a mask 
+        self.mask = pygame.mask.from_surface(self.image)
          
 class Player(pygame.sprite.Sprite):
 
@@ -353,6 +363,7 @@ class Player(pygame.sprite.Sprite):
         self.move()
         self.check_collisions()
         self.check_animations()
+        self.mask = pygame.mask.from_surface(self.image)
 
     def move(self):
         self.acceleration = vector(0, self.VERTICAL_ACCLERATION)
@@ -385,13 +396,13 @@ class Player(pygame.sprite.Sprite):
     def check_collisions(self):
         #Collision check between player and platform 
         if self.velocity.y > 0: 
-            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False)
+            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False, pygame.sprite.collide_mask)
             if collided_platforms:
-                self.position.y = collided_platforms[0].rect.top + 1
+                self.position.y = collided_platforms[0].rect.top + 5
                 self.velocity.y = 0 
         
         if self.velocity.y < 0: 
-            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False)
+            collided_platforms = pygame.sprite.spritecollide(self, self.platform_group, False, pygame.sprite.collide_mask)
             if collided_platforms:
                 self.velocity.y = 0 
                 while pygame.sprite.spritecollide(self, self.platform_group, False):
@@ -411,6 +422,8 @@ class Player(pygame.sprite.Sprite):
             else: 
                 self.position.y = WINDOW_HEIGHT - 132 
             self.rect.bottomleft = self.position
+        
+
 
     def check_animations(self):
         #animate jump 
@@ -440,6 +453,7 @@ class Player(pygame.sprite.Sprite):
         self.animate_fire = True 
 
     def reset(self):
+        self.velocity = vector(0,0)
         self.position = vector(self.starting_x, self.starting_y)
         self.rect.bottomleft = self.position
 
