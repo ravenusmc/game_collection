@@ -423,10 +423,8 @@ class Player(pygame.sprite.Sprite):
                 self.position.y = WINDOW_HEIGHT - 132 
             self.rect.bottomleft = self.position
         
-
-
     def check_animations(self):
-        #animate jump 
+        #animate player jump 
         if self.animate_jump:
             if self.velocity.x > 0: 
                 self.animate(self.jump_right_sprites, .1)
