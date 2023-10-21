@@ -21,7 +21,7 @@ class Game():
         self.STARTING_ROUND_TIME = 30
         self.STARTING_ZOMBIE_CREATION_TIME = 5
         self.score = 0 
-        self.round_number = 1 
+        self.round_number = 1
         self.frame_count = 0
         self.round_time = self.STARTING_ROUND_TIME
         self.zombie_creation_time = self.STARTING_ZOMBIE_CREATION_TIME
@@ -994,9 +994,9 @@ while running:
             if event.key == pygame.K_UP: 
                 my_player.fire()
             #Rain zombies...for testing purposes 
-            if event.key == pygame.K_RETURN:
-                zombie = Zombie(my_platform_group, my_portal_group, 2,7)
-                my_zombie_group.add(zombie)
+            # if event.key == pygame.K_RETURN:
+            #     zombie = Zombie(my_platform_group, my_portal_group, 2,7)
+            #     my_zombie_group.add(zombie)
 
 
     # Blit the background
